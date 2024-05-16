@@ -14,7 +14,7 @@
 
 from python_qt_binding.QtCore import qDebug, QThread
 import rclpy
-from rclpy.executors import MultiThreadedExecutor
+from rclpy.executors import SingleThreadedExecutor
 
 
 class RclpySpinner(QThread):
@@ -26,7 +26,7 @@ class RclpySpinner(QThread):
 
     def run(self):
         qDebug('Start called on RclpySpinner, spinning ros2 node')
-        executor = MultiThreadedExecutor()
+        executor = SingleThreadedExecutor()
         executor.add_node(self._node)
         while rclpy.ok() and not self._abort:
             executor.spin_once(timeout_sec=1.0)
